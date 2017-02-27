@@ -1,9 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal" >
     <TextView
-        android:text="unathorized"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_title"
+        android:textSize="@dimen/h1" />
+    <EditText
+        android:id="@+id/login_login"
+        android:hint="@string/login_prompt"
+        android:textSize="@dimen/h2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textNoSuggestions" />
+    <EditText
+        android:id="@+id/login_password"
+        android:hint="@string/password_prompt"
+        android:textSize="@dimen/h2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword" />
+    <Button
+        android:id="@+id/login_button"
+        android:text="@string/login_button"
+        android:textSize="@dimen/h2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/login_register_button"
+        android:text="@string/register_button"
+        android:textSize="@dimen/h2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
