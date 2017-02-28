@@ -15,9 +15,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".fragments.UnathorizedFragment">
+        <activity android:name=".activities.RegisterActivity">
         </activity>
-        <activity android:name=".fragments.MenuFragment">
+        <activity android:name=".activities.DashboardActivity">
         </activity>
     </application>
 

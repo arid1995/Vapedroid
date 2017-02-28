@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 import com.dimwits.vaperoid.R;
 import com.dimwits.vaperoid.fragments.MenuFragment;
-import com.dimwits.vaperoid.fragments.UnathorizedFragment;
+import com.dimwits.vaperoid.fragments.UnauthenticatedFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         if (isLoggedIn()) {
             transaction.replace(R.id.menu_login_container, new MenuFragment());
         } else {
-            transaction.replace(R.id.menu_login_container, new UnathorizedFragment());
+            transaction.replace(R.id.menu_login_container, new UnauthenticatedFragment());
         }
 
         try {

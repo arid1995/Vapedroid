@@ -7,4 +7,6 @@
     <string name="menu">Menu</string>
     <string name="search">Search</string>
     <string name="register_button">Sign up</string>
+    <string name="register_title">Registration</string>
+    <string name="dashboard_title">Dashboard</string>
 </resources>
