@@ -9,4 +9,6 @@
     <string name="register_button">Sign up</string>
     <string name="register_title">Registration</string>
     <string name="dashboard_title">Dashboard</string>
+    <string name="dashboard_button_exit">Exit</string>
+    <string name="dashboard_button_profile">Profile</string>
 </resources>
