@@ -34,10 +34,10 @@ public class ServiceHelper {
         context.startService(intent);
     }
 
-    private Intent initIntent(Context context, String uri) {
+    private Intent initIntent(Context context, String url) {
         Intent intent = new Intent(context, GetTextIntentService.class);
         intent.setAction(GetTextIntentService.ACTION_LOAD_TEXT);
-        intent.putExtra(GetTextIntentService.EXTRA_URL, uri);
+        intent.putExtra(GetTextIntentService.EXTRA_URL, url);
         return intent;
     }
 

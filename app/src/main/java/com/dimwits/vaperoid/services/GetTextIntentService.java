@@ -3,6 +3,15 @@ package com.dimwits.vaperoid.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.dimwits.vaperoid.utils.network.OkHttpConnector;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import java.io.IOException;
 
 /**
  * Created by farid on 3/4/17.
@@ -26,9 +35,22 @@ public class GetTextIntentService extends IntentService {
     }
 
     private void requestUrl(String url) {
-        Intent intent = new Intent(ACTION_TEXT_READY);
-        intent.putExtra(EXTRA_RESPONSE, "Dat works");
+        OkHttpClient connector = OkHttpConnector.getConnector();
 
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        try {
+            Request request = new Request.Builder().url(url).build();
+
+            Response response = connector.newCall(request).execute();
+
+            Intent intent = new Intent(ACTION_TEXT_READY);
+            intent.putExtra(EXTRA_RESPONSE, response.body().string());
+
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        } catch (IOException ex) {
+            Intent intent = new Intent(ACTION_TEXT_READY);
+            intent.putExtra(EXTRA_RESPONSE, "Connection problem");
+
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        }
     }
 }

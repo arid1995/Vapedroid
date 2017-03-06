@@ -34,7 +34,7 @@ public class UnauthenticatedFragment extends Fragment {
         view.findViewById(R.id.login_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ServiceHelper.getInstance(view.getContext()).getText(view.getContext(), "shit");
+                ServiceHelper.getInstance(view.getContext()).getText(view.getContext(), "http://mail.ru");
             }
         });
 

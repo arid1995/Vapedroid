@@ -7,11 +7,11 @@ import com.squareup.okhttp.OkHttpClient;
  */
 
 public class OkHttpConnector {
-    private OkHttpClient okHttpClient = new OkHttpClient();
+    private static OkHttpClient okHttpClient = new OkHttpClient();
 
     private OkHttpConnector() {}
 
-    public OkHttpClient getConnector() {
+    public static synchronized OkHttpClient getConnector() {
         return okHttpClient;
     }
 }
