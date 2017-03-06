@@ -5,9 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.SparseArray;
 import android.widget.Toast;
 
 import com.dimwits.vaperoid.services.GetTextIntentService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by farid on 3/4/17.
@@ -15,7 +19,11 @@ import com.dimwits.vaperoid.services.GetTextIntentService;
 
 public class ServiceHelper {
 
+    private int taskId = 0;
+    private SparseArray<ResultListener> listeners = new SparseArray<>();
     private static ServiceHelper serviceHelper;
+
+    private ResultListener resultListener;
 
     private ServiceHelper() {
     }
@@ -29,9 +37,14 @@ public class ServiceHelper {
         return serviceHelper;
     }
 
-    public void getText(Context context, String uri) {
+    public void getText(Context context, String uri, ResultListener resultListener) {
+        this.resultListener = resultListener;
         Intent intent = initIntent(context, uri);
         context.startService(intent);
+    }
+
+    public void removeListener() {
+        resultListener = null;
     }
 
     private Intent initIntent(Context context, String url) {
@@ -48,10 +61,13 @@ public class ServiceHelper {
         LocalBroadcastManager.getInstance(context).registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Toast.makeText(context, "Dayamn, " +
-                        intent.getStringExtra(GetTextIntentService.EXTRA_RESPONSE),
-                        Toast.LENGTH_SHORT).show();
+                if (resultListener != null)
+                    resultListener.handleResponse(intent.getStringExtra(GetTextIntentService.EXTRA_RESPONSE));
             }
         }, filter);
+    }
+
+    public interface ResultListener {
+        void handleResponse(String response);
     }
 }
