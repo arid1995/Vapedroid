@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.dimwits.vaperoid.R;
 import com.dimwits.vaperoid.activities.MainActivity;
 import com.dimwits.vaperoid.activities.RegisterActivity;
+import com.dimwits.vaperoid.utils.helpers.ServiceHelper;
 
 /**
  * Created by farid on 2/26/17.
@@ -27,6 +28,13 @@ public class UnauthenticatedFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), RegisterActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.login_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ServiceHelper.getInstance(view.getContext()).getText(view.getContext(), "shit");
             }
         });
 
