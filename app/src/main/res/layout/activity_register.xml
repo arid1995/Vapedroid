@@ -7,11 +7,68 @@
     <TextView
         android:text="@string/register_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/h1"/>
+    <EditText
+        android:id="@+id/register_login"
+        android:hint="@string/login_prompt"
+        android:textSize="@dimen/h2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textNoSuggestions" />
+    <EditText
+        android:id="@+id/register_password"
+        android:hint="@string/password_prompt"
+        android:textSize="@dimen/h2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword" />
+    <EditText
+        android:id="@+id/register_password_repeat"
+        android:hint="@string/password_repeat_prompt"
+        android:textSize="@dimen/h2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword" />
+    <EditText
+        android:id="@+id/register_email"
+        android:hint="@string/email_prompt"
+        android:textSize="@dimen/h2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress" />
+    <EditText
+        android:id="@+id/register_first_name"
+        android:hint="@string/first_name_prompt"
+        android:textSize="@dimen/h2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textNoSuggestions" />
+    <EditText
+        android:id="@+id/register_last_name"
+        android:hint="@string/last_name_prompt"
+        android:textSize="@dimen/h2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textNoSuggestions" />
+    <EditText
+        android:id="@+id/register_about"
+        android:hint="@string/about_prompt"
+        android:textSize="@dimen/h2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/register_upload_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/register_upload_button" />
+
     <Button
         android:id="@+id/register_button"
-        android:text="@string/register_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/register_submit_button" />
 
 </LinearLayout>

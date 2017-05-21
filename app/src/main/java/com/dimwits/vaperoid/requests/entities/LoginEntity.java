@@ -14,7 +14,7 @@ public class LoginEntity {
     private String login;
     private String password;
 
-    public LoginEntity(String login, String password) {
+    public LoginEntity(String login, String password) throws ViolatedConstraintsException {
         if (login.length() < LOGIN_LENGTH || password.length() < PASSWORD_LENGTH) {
             throw new ViolatedConstraintsException("Some values are not appropriate");
         }

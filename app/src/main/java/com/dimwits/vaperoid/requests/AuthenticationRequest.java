@@ -1,6 +1,7 @@
 package com.dimwits.vaperoid.requests;
 
 import com.dimwits.vaperoid.requests.entities.LoginEntity;
+import com.dimwits.vaperoid.requests.exceptions.ViolatedConstraintsException;
 import com.dimwits.vaperoid.utils.listeners.ResponseListener;
 import com.dimwits.vaperoid.utils.network.NetworkConstants;
 import com.dimwits.vaperoid.utils.network.NetworkHelper;
@@ -13,7 +14,8 @@ import com.google.gson.Gson;
 public class AuthenticationRequest extends Request {
     int taskId = 0;
 
-    public void authenticate(ResponseListener listener, String login, String password) {
+    public void authenticate(ResponseListener listener,
+                             String login, String password) throws ViolatedConstraintsException {
         Gson gson = new Gson();
         LoginEntity loginEntity = new LoginEntity(login, password);
         String jsonRepresentation = gson.toJson(loginEntity);

@@ -6,10 +6,18 @@
     <string name="password_prompt">Enter your password</string>
     <string name="menu">Menu</string>
     <string name="search">Search</string>
-    <string name="register_button">Sign up</string>
+    <string name="register_submit_button">Sign up</string>
     <string name="register_title">Registration</string>
     <string name="dashboard_title">Dashboard</string>
     <string name="dashboard_button_exit">Exit</string>
     <string name="dashboard_button_profile">Profile</string>
     <string name="violated_constraints_message">Some values are not appropriate</string>
+    <string name="shared_pref_file">com.dimwits.vaperoid</string>
+    <string name="password_repeat_prompt">Repeat password</string>
+    <string name="exit">Exit</string>
+    <string name="about_prompt">About yourself</string>
+    <string name="last_name_prompt">Last name</string>
+    <string name="first_name_prompt">First name</string>
+    <string name="email_prompt">email</string>
+    <string name="register_upload_button">Upload image</string>
 </resources>

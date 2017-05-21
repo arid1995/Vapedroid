@@ -1,5 +1,7 @@
 package com.dimwits.vaperoid.activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -33,8 +35,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //TODO: implement method that checks if user is logged in
     private boolean isLoggedIn() {
-        return false;
+        SharedPreferences sharedPreferences = this.getSharedPreferences(
+                this.getString(R.string.shared_pref_file), Context.MODE_PRIVATE);
+        String sessionId = sharedPreferences.getString(UnauthenticatedFragment.SESSION_ID_KEY, null);
+        return sessionId != null;
     }
 }
