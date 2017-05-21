@@ -11,4 +11,5 @@
     <string name="dashboard_title">Dashboard</string>
     <string name="dashboard_button_exit">Exit</string>
     <string name="dashboard_button_profile">Profile</string>
+    <string name="violated_constraints_message">Some values are not appropriate</string>
 </resources>

@@ -1,11 +1,9 @@
 package com.dimwits.vaperoid.utils.network;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.SparseArray;
-import android.widget.Toast;
 
 import com.dimwits.vaperoid.utils.listeners.ResponseListener;
 import com.squareup.okhttp.MediaType;
@@ -64,8 +62,8 @@ public class NetworkHelper {
         return response.body().string();
     }
 
-    public int sendRequest(ResponseListener listener,
-                               final String method, final String body, final String url) {
+    public int send(ResponseListener listener,
+                    final String method, final String body, final String url) {
         tasks.put(taskId, listener);
 
         fixedThreadPool.execute(new Runnable() {

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +11,25 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dimwits.vaperoid.R;
-import com.dimwits.vaperoid.activities.MainActivity;
 import com.dimwits.vaperoid.activities.RegisterActivity;
+import com.dimwits.vaperoid.requests.AuthenticationRequest;
+import com.dimwits.vaperoid.requests.exceptions.ViolatedConstraintsException;
 import com.dimwits.vaperoid.utils.listeners.ResponseListener;
-import com.dimwits.vaperoid.utils.network.NetworkHelper;
 
 /**
  * Created by farid on 2/26/17.
  */
 
 public class UnauthenticatedFragment extends Fragment implements ResponseListener {
-    Integer taskId = 0;
+    private Integer taskId = 0;
+    private EditText loginField;
+    private EditText passwordField;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+        loginField = (EditText) view.findViewById(R.id.login_login);
+        passwordField = (EditText) view.findViewById(R.id.login_password);
 
         view.findViewById(R.id.login_register_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,16 +43,20 @@ public class UnauthenticatedFragment extends Fragment implements ResponseListene
         view.findViewById(R.id.login_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                taskId = NetworkHelper.getInstance().sendRequest(UnauthenticatedFragment.this,
-                        NetworkHelper.POST, "shit",
-                        "https://yandex.ru");
+                String login = loginField.getText().toString();
+                String password = passwordField.getText().toString();
+                AuthenticationRequest authenticator = new AuthenticationRequest();
+                try {
+                    authenticator.authenticate(UnauthenticatedFragment.this, login, password);
+                } catch (ViolatedConstraintsException e) {
+                    Toast.makeText(UnauthenticatedFragment.this.getContext(), e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         return view;
     }
-
-
 
     @Override
     public void onResponseFinished(String response, boolean isSuccessful) {
