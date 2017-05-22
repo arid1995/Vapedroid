@@ -124,7 +124,11 @@ public class NetworkHelper {
     }
 
     private String sendRequest(String method, String body, String url) throws IOException {
-        RequestBody requestBody = RequestBody.create(JSON, body);
+        RequestBody requestBody = null;
+        if (!method.equals(GET)) {
+            requestBody = RequestBody.create(JSON, body);
+        }
+
         OkHttpClient client = OkHttpConnector.getConnector();
 
         Request request = new Request.Builder()

@@ -20,4 +20,6 @@
     <string name="first_name_prompt">First name</string>
     <string name="email_prompt">email</string>
     <string name="register_upload_button">Upload image</string>
+    <string name="profile">Profile</string>
+    <string name="user_picture">User picture</string>
 </resources>

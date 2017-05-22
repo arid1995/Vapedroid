@@ -5,5 +5,5 @@ package com.dimwits.vaperoid.utils.network;
  */
 
 public class NetworkConstants {
-    public final static String IP_ADDRESS = "http://37.204.2.4:8080";
+    public final static String IP_ADDRESS = "http://37.204.2.4:8000";
 }

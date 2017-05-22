@@ -10,6 +10,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <Button
+        android:id="@+id/menu_profile_button"
+        android:text="@string/profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
         android:id="@+id/menu_search_button"
         android:text="@string/search"
         android:layout_width="wrap_content"

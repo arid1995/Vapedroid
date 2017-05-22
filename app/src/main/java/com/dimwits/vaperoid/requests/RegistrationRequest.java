@@ -1,7 +1,6 @@
 package com.dimwits.vaperoid.requests;
 
-import com.dimwits.vaperoid.requests.entities.AuthenticationEntity;
-import com.dimwits.vaperoid.requests.entities.RegistrationEntity;
+import com.dimwits.vaperoid.requests.entities.UserEntity;
 import com.dimwits.vaperoid.requests.exceptions.ViolatedConstraintsException;
 import com.dimwits.vaperoid.utils.listeners.ResponseListener;
 import com.dimwits.vaperoid.utils.network.NetworkConstants;
@@ -19,9 +18,9 @@ public class RegistrationRequest extends Request {
                          String firstName, String lastName, String avatarPath,
                          String about) throws ViolatedConstraintsException {
         Gson gson = new Gson();
-        RegistrationEntity registrationEntity = new RegistrationEntity(login, password, email,
+        UserEntity userEntity = new UserEntity(login, password, email,
                 firstName, lastName, avatarPath, about);
-        String jsonRepresentation = gson.toJson(registrationEntity);
+        String jsonRepresentation = gson.toJson(userEntity);
         taskId = NetworkHelper.getInstance().send(listener,
                 NetworkHelper.POST, jsonRepresentation,
                 NetworkConstants.IP_ADDRESS + "/api/user");

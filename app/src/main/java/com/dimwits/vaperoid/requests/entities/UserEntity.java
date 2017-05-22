@@ -6,23 +6,23 @@ import com.dimwits.vaperoid.requests.exceptions.ViolatedConstraintsException;
  * Created by farid on 5/22/17.
  */
 
-public class RegistrationEntity {
+public class UserEntity {
     private String login;
     private String password;
     private String email;
     private String firstName;
     private String lastName;
-    private String avatarPath;
+    private String avatar;
     private String about;
 
-    public RegistrationEntity(String login, String password, String email, String firstName,
-                              String lastName, String avatarPath, String about) {
+    public UserEntity(String login, String password, String email, String firstName,
+                      String lastName, String avatar, String about) {
         if (login.length() < AuthenticationEntity.LOGIN_LENGTH ||
                 password.length() < AuthenticationEntity.PASSWORD_LENGTH ||
                 email == null ||
                 firstName == null ||
                 lastName == null ||
-                avatarPath == null) {
+                avatar == null) {
             throw new ViolatedConstraintsException("Some values are not appropriate");
         }
         this.login = login;
@@ -30,7 +30,7 @@ public class RegistrationEntity {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.avatarPath = avatarPath;
+        this.avatar = avatar;
         this.about = about;
     }
 
@@ -54,8 +54,8 @@ public class RegistrationEntity {
         return lastName;
     }
 
-    public String getAvatarPath() {
-        return avatarPath;
+    public String getAvatar() {
+        return avatar;
     }
 
     public String getAbout() {

@@ -5,4 +5,5 @@ package com.dimwits.vaperoid.requests;
  */
 
 public abstract class Request {
+    protected int taskId = 0;
 }
