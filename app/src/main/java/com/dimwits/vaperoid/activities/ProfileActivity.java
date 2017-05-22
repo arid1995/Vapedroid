@@ -24,6 +24,9 @@ public class ProfileActivity extends Activity implements ResponseListener {
     private ImageView userPictureView;
     private TextView usernameField;
     private TextView emailField;
+    private TextView firstNameField;
+    private TextView lastNameField;
+    private TextView aboutField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,10 @@ public class ProfileActivity extends Activity implements ResponseListener {
         setContentView(R.layout.activity_profile);
         userPictureView = (ImageView) findViewById(R.id.profile_picture);
         usernameField = (TextView) findViewById(R.id.profile_username);
+        emailField = (TextView) findViewById(R.id.profile_email);
+        firstNameField = (TextView) findViewById(R.id.profile_first_name);
+        lastNameField = (TextView) findViewById(R.id.profile_last_name);
+        aboutField = (TextView) findViewById(R.id.profile_about);
 
         SharedPreferences sharedPreferences = this.getSharedPreferences(
                 this.getString(R.string.shared_pref_file), Context.MODE_PRIVATE);
@@ -50,7 +57,11 @@ public class ProfileActivity extends Activity implements ResponseListener {
         Gson gson = new Gson();
         UserEntity user = gson.fromJson(response, UserEntity.class);
         usernameField.setText(user.getLogin());
-        Picasso.with(this).load(NetworkConstants.IP_ADDRESS + "/api/file/" + user.getAvatar())
+        emailField.setText(user.getEmail());
+        firstNameField.setText(user.getFirstName());
+        lastNameField.setText(user.getLastName());
+        aboutField.setText(user.getAbout());
+        Picasso.with(this).load(NetworkConstants.IP_ADDRESS + "/" + user.getAvatar())
                 .into(userPictureView);
     }
 }
