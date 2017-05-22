@@ -7,14 +7,14 @@ import com.dimwits.vaperoid.requests.exceptions.ViolatedConstraintsException;
  * Created by farid on 5/21/17.
  */
 
-public class LoginEntity {
+public class AuthenticationEntity {
     public static final int LOGIN_LENGTH = 5;
     public static final int PASSWORD_LENGTH = 8;
 
     private String login;
     private String password;
 
-    public LoginEntity(String login, String password) throws ViolatedConstraintsException {
+    public AuthenticationEntity(String login, String password) throws ViolatedConstraintsException {
         if (login.length() < LOGIN_LENGTH || password.length() < PASSWORD_LENGTH) {
             throw new ViolatedConstraintsException("Some values are not appropriate");
         }

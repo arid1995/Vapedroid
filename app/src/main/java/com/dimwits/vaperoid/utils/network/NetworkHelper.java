@@ -7,6 +7,7 @@ import android.util.SparseArray;
 
 import com.dimwits.vaperoid.utils.listeners.ProgressListener;
 import com.dimwits.vaperoid.utils.listeners.ResponseListener;
+import com.dimwits.vaperoid.utils.listeners.UploadedListener;
 import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.MultipartBuilder;
@@ -30,11 +31,14 @@ public class NetworkHelper {
     private final int NUM_THREADS = 3;
     private final Handler resultHandler;
     private final Handler progressHandler;
+    private final Handler uploadedHandler;
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     private final SparseArray<ResponseListener> tasks = new SparseArray<>();
+    private final SparseArray<UploadedListener> uploadTasks = new SparseArray<>();
     private final SparseArray<ProgressListener> progressTasks = new SparseArray<>();
+
     private int taskId = 0;
     private final ExecutorService fixedThreadPool;
     private static NetworkHelper instance;
@@ -51,6 +55,12 @@ public class NetworkHelper {
             @Override
             public void handleMessage(Message message) {
                 progressChanged(message.arg1, message.arg2);
+            }
+        };
+        uploadedHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message message) {
+                fileUploaded(message.arg1, (String) message.obj, true);
             }
         };
     }
@@ -83,13 +93,12 @@ public class NetworkHelper {
         return taskId;
     }
 
-    public int uploadFile(ResponseListener responseListener, ProgressListener progressListener,
+    public int uploadFile(UploadedListener uploadedListener, ProgressListener progressListener,
                           final String filePath, final String url) {
-        tasks.put(taskId, responseListener);
+        uploadTasks.put(taskId, uploadedListener);
         progressTasks.put(taskId, progressListener);
 
         final File file = new File(filePath);
-        final long totalSize = file.length();
         RequestBody requestBody = buildRequestBody(file, taskId);
 
         final Request request = new Request.Builder()
@@ -100,7 +109,7 @@ public class NetworkHelper {
         fixedThreadPool.execute(new Runnable() {
             @Override
             public void run() {
-                Message message = resultHandler.obtainMessage();
+                Message message = uploadedHandler.obtainMessage();
                 message.arg1 = taskId;
                 try {
                     message.obj = OkHttpConnector.getConnector().newCall(request)
@@ -151,8 +160,17 @@ public class NetworkHelper {
             return;
         }
         tasks.remove(taskId);
-        progressTasks.remove(taskId);
         responseListener.onResponseFinished(response, isSuccessful);
+    }
+
+    private void fileUploaded(int taskId, String response, boolean isSuccessful) {
+        UploadedListener uploadedListener = uploadTasks.get(taskId);
+        if (uploadedListener == null) {
+            return;
+        }
+        uploadTasks.remove(taskId);
+        progressTasks.remove(taskId);
+        uploadedListener.fileUploaded(response, isSuccessful);
     }
 
     private void progressChanged(int taskId, int percents) {
