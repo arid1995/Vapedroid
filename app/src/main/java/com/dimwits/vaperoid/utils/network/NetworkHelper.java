@@ -5,16 +5,21 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.SparseArray;
 
+import com.dimwits.vaperoid.utils.listeners.ProgressListener;
 import com.dimwits.vaperoid.utils.listeners.ResponseListener;
+import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 /**
  * Created by farid on 3/22/17.
  */
@@ -24,10 +29,12 @@ public class NetworkHelper {
     public static String POST = "POST";
     private final int NUM_THREADS = 3;
     private final Handler resultHandler;
+    private final Handler progressHandler;
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     private final SparseArray<ResponseListener> tasks = new SparseArray<>();
+    private final SparseArray<ProgressListener> progressTasks = new SparseArray<>();
     private int taskId = 0;
     private final ExecutorService fixedThreadPool;
     private static NetworkHelper instance;
@@ -40,6 +47,12 @@ public class NetworkHelper {
                 resultReady(message.arg1, (String) message.obj, true);
             }
         };
+        progressHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message message) {
+                progressChanged(message.arg1, message.arg2);
+            }
+        };
     }
 
     public static synchronized NetworkHelper getInstance() {
@@ -47,19 +60,6 @@ public class NetworkHelper {
             instance = new NetworkHelper();
         }
         return instance;
-    }
-
-    private String sendRequest(String method, String body, String url) throws IOException {
-        RequestBody requestBody = RequestBody.create(JSON, body);
-        OkHttpClient client = OkHttpConnector.getConnector();
-
-        Request request = new Request.Builder()
-                .url(url)
-                .method(method, requestBody)
-                .build();
-
-        Response response = client.newCall(request).execute();
-        return response.body().string();
     }
 
     public int send(ResponseListener listener,
@@ -83,9 +83,83 @@ public class NetworkHelper {
         return taskId;
     }
 
+    public int uploadFile(ResponseListener responseListener, ProgressListener progressListener,
+                          final String filePath, final String url) {
+        tasks.put(taskId, responseListener);
+        progressTasks.put(taskId, progressListener);
+
+        final File file = new File(filePath);
+        final long totalSize = file.length();
+        RequestBody requestBody = buildRequestBody(file, taskId);
+
+        final Request request = new Request.Builder()
+                .url(NetworkConstants.IP_ADDRESS + url)
+                .post(requestBody)
+                .build();
+
+        fixedThreadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                Message message = resultHandler.obtainMessage();
+                message.arg1 = taskId;
+                try {
+                    message.obj = OkHttpConnector.getConnector().newCall(request)
+                            .execute().body().string();
+                    message.sendToTarget();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return taskId;
+    }
+
+    private String sendRequest(String method, String body, String url) throws IOException {
+        RequestBody requestBody = RequestBody.create(JSON, body);
+        OkHttpClient client = OkHttpConnector.getConnector();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .method(method, requestBody)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return response.body().string();
+    }
+
+    private RequestBody buildRequestBody(final File file, final int taskId) {
+        return new MultipartBuilder()
+                .type(MultipartBuilder.FORM)
+                .addFormDataPart(
+                        "file", file.getName(),
+                        new CountingFileRequestBody(file, "image/*", new CountingFileRequestBody.ProgressListener() {
+                            @Override
+                            public void transferred(long num) {
+                                Message message = progressHandler.obtainMessage();
+                                message.arg1 = taskId;
+                                message.arg2 = (int) num;
+                                message.sendToTarget();
+                            }
+                        })
+                )
+                .build();
+    }
+
     private void resultReady(int taskId, String response, boolean isSuccessful) {
         ResponseListener responseListener = tasks.get(taskId);
+        if (responseListener == null) {
+            return;
+        }
         tasks.remove(taskId);
+        progressTasks.remove(taskId);
         responseListener.onResponseFinished(response, isSuccessful);
+    }
+
+    private void progressChanged(int taskId, int percents) {
+        ProgressListener progressListener = progressTasks.get(taskId);
+        if (progressListener == null) {
+            return;
+        }
+        progressListener.refreshProgress(percents);
     }
 }

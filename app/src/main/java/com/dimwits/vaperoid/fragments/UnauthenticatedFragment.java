@@ -42,7 +42,6 @@ public class UnauthenticatedFragment extends Fragment implements ResponseListene
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), RegisterActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
             }
         });

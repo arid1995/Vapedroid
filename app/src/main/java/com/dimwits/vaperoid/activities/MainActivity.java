@@ -1,7 +1,9 @@
 package com.dimwits.vaperoid.activities;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                1);
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                1);
+
         setContentView(R.layout.activity_main);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
