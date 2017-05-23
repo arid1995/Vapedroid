@@ -7,10 +7,6 @@ import com.dimwits.vaperoid.utils.network.NetworkConstants;
 import com.dimwits.vaperoid.utils.network.NetworkHelper;
 import com.google.gson.Gson;
 
-/**
- * Created by farid on 5/21/17.
- */
-
 public class RegistrationRequest extends Request {
     public void register(ResponseListener listener, String login, String password, String email,
                          String firstName, String lastName, String avatarPath,

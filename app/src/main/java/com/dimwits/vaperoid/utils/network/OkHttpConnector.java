@@ -8,22 +8,17 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 
 import javax.net.SocketFactory;
 
-/**
- * Created by farid on 3/2/17.
- */
-
-public class OkHttpConnector {
+class OkHttpConnector {
     private static OkHttpClient okHttpClient = new OkHttpClient();
 
     private OkHttpConnector() {
         okHttpClient.setSocketFactory(new RestrictedSocketFactory(8 * 1024));
     }
 
-    public static synchronized OkHttpClient getConnector() {
+    static synchronized OkHttpClient getConnector() {
         return okHttpClient;
     }
 
@@ -33,7 +28,7 @@ public class OkHttpConnector {
         private int mSendBufferSize;
 
 
-        public RestrictedSocketFactory(int sendBufferSize) {
+        RestrictedSocketFactory(int sendBufferSize) {
             mSendBufferSize = sendBufferSize;
             try {
                 Socket socket = new Socket();
@@ -52,13 +47,13 @@ public class OkHttpConnector {
 
         @Override
         public Socket createSocket(String host, int port)
-                throws IOException, UnknownHostException {
+                throws IOException {
             return updateSendBufferSize(new Socket(host, port));
         }
 
         @Override
         public Socket createSocket(String host, int port, InetAddress localHost, int localPort)
-                throws IOException, UnknownHostException {
+                throws IOException {
             return updateSendBufferSize(new Socket(host, port, localHost, localPort));
         }
 

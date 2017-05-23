@@ -16,10 +16,6 @@ import android.widget.Button;
 import com.dimwits.vaperoid.R;
 import com.dimwits.vaperoid.activities.ProfileActivity;
 
-/**
- * Created by farid on 2/26/17.
- */
-
 public class MenuFragment extends Fragment {
     private Button exitButton;
     private Button profileButton;

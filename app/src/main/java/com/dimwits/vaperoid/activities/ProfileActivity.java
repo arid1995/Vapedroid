@@ -1,6 +1,5 @@
 package com.dimwits.vaperoid.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,10 +15,6 @@ import com.dimwits.vaperoid.utils.listeners.ResponseListener;
 import com.dimwits.vaperoid.utils.network.NetworkConstants;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-
-/**
- * Created by farid on 5/23/17.
- */
 
 public class ProfileActivity extends AppCompatActivity implements ResponseListener {
     private ImageView userPictureView;

@@ -15,7 +15,7 @@ import okio.Source;
  * Created by farid on 5/22/17.
  */
 
-public class CountingFileRequestBody extends RequestBody {
+class CountingFileRequestBody extends RequestBody {
 
     private static final int SEGMENT_SIZE = 8 * 1024; // okio.Segment.SIZE
 
@@ -23,7 +23,7 @@ public class CountingFileRequestBody extends RequestBody {
     private final ProgressListener listener;
     private final String contentType;
 
-    public CountingFileRequestBody(File file, String contentType, ProgressListener listener) {
+    CountingFileRequestBody(File file, String contentType, ProgressListener listener) {
         this.file = file;
         this.contentType = contentType;
         this.listener = listener;

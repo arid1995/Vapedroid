@@ -8,7 +8,6 @@ import android.util.SparseArray;
 import com.dimwits.vaperoid.utils.listeners.ProgressListener;
 import com.dimwits.vaperoid.utils.listeners.ResponseListener;
 import com.dimwits.vaperoid.utils.listeners.UploadedListener;
-import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -21,19 +20,14 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * Created by farid on 3/22/17.
- */
-
 public class NetworkHelper {
     public static String GET = "GET";
     public static String POST = "POST";
-    private final int NUM_THREADS = 3;
     private final Handler resultHandler;
     private final Handler progressHandler;
     private final Handler uploadedHandler;
 
-    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     private final SparseArray<ResponseListener> tasks = new SparseArray<>();
     private final SparseArray<UploadedListener> uploadTasks = new SparseArray<>();
@@ -44,6 +38,7 @@ public class NetworkHelper {
     private static NetworkHelper instance;
 
     private NetworkHelper() {
+        int NUM_THREADS = 3;
         fixedThreadPool = Executors.newFixedThreadPool(NUM_THREADS);
         resultHandler = new Handler(Looper.getMainLooper()) {
             @Override

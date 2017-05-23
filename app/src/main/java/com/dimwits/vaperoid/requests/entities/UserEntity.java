@@ -2,10 +2,6 @@ package com.dimwits.vaperoid.requests.entities;
 
 import com.dimwits.vaperoid.requests.exceptions.ViolatedConstraintsException;
 
-/**
- * Created by farid on 5/22/17.
- */
-
 public class UserEntity {
     private String login;
     private String password;
@@ -36,10 +32,6 @@ public class UserEntity {
 
     public String getLogin() {
         return login;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getEmail() {

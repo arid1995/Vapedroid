@@ -7,10 +7,6 @@ import com.dimwits.vaperoid.utils.network.NetworkConstants;
 import com.dimwits.vaperoid.utils.network.NetworkHelper;
 import com.google.gson.Gson;
 
-/**
- * Created by farid on 5/21/17.
- */
-
 public class AuthenticationRequest extends Request {
     public void authenticate(ResponseListener listener,
                              String login, String password) throws ViolatedConstraintsException {

@@ -22,13 +22,8 @@ import com.dimwits.vaperoid.requests.exceptions.WrongCredentialsException;
 import com.dimwits.vaperoid.utils.listeners.ResponseListener;
 import com.google.gson.Gson;
 
-/**
- * Created by farid on 2/26/17.
- */
-
 public class UnauthenticatedFragment extends Fragment implements ResponseListener {
     public static final String SESSION_ID_KEY = "sessionId";
-    private Integer taskId = 0;
     private EditText loginField;
     private EditText passwordField;
     private AuthenticationRequest authenticator = new AuthenticationRequest();

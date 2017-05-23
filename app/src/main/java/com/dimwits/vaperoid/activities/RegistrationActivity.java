@@ -27,10 +27,6 @@ import com.dimwits.vaperoid.utils.listeners.UploadedListener;
 import com.dimwits.vaperoid.utils.network.NetworkHelper;
 import com.google.gson.Gson;
 
-/**
- * Created by farid on 2/28/17.
- */
-
 public class RegistrationActivity extends AppCompatActivity implements ResponseListener,
         ProgressListener, UploadedListener {
     public static final int PICK_IMAGE = 1;

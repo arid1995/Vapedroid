@@ -14,7 +14,7 @@ import com.dimwits.vaperoid.requests.entities.UserEntity;
  */
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView userPicture;
         private final TextView username;
         private final TextView name;
