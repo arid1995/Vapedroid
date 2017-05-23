@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dimwits.vaperoid.R;
-import com.dimwits.vaperoid.activities.RegisterActivity;
+import com.dimwits.vaperoid.activities.RegistrationActivity;
 import com.dimwits.vaperoid.requests.AuthenticationRequest;
 import com.dimwits.vaperoid.requests.entities.SessionEntity;
 import com.dimwits.vaperoid.requests.exceptions.ViolatedConstraintsException;
@@ -31,6 +31,7 @@ public class UnauthenticatedFragment extends Fragment implements ResponseListene
     private Integer taskId = 0;
     private EditText loginField;
     private EditText passwordField;
+    private AuthenticationRequest authenticator = new AuthenticationRequest();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class UnauthenticatedFragment extends Fragment implements ResponseListene
         view.findViewById(R.id.login_register_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), RegisterActivity.class);
+                Intent intent = new Intent(getActivity(), RegistrationActivity.class);
                 startActivity(intent);
             }
         });
@@ -49,9 +50,12 @@ public class UnauthenticatedFragment extends Fragment implements ResponseListene
         view.findViewById(R.id.login_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!authenticator.isFinished()) {
+                    Toast.makeText(getContext(), "Be patient please", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 String login = loginField.getText().toString();
                 String password = passwordField.getText().toString();
-                AuthenticationRequest authenticator = new AuthenticationRequest();
                 try {
                     authenticator.authenticate(UnauthenticatedFragment.this, login, password);
                 } catch (ViolatedConstraintsException e) {
@@ -73,7 +77,7 @@ public class UnauthenticatedFragment extends Fragment implements ResponseListene
                 Toast.makeText(this.getContext(), "Wrong credentials", Toast.LENGTH_SHORT).show();
                 return;
             }
-
+            authenticator.requestFinished();
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.menu_login_container, new MenuFragment());
             transaction.commitAllowingStateLoss();
@@ -86,6 +90,7 @@ public class UnauthenticatedFragment extends Fragment implements ResponseListene
 
     @Override
     public void onStop() {
+        authenticator.stopProcess();
         super.onStop();
     }
 

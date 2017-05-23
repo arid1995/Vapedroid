@@ -31,7 +31,7 @@ import com.google.gson.Gson;
  * Created by farid on 2/28/17.
  */
 
-public class RegisterActivity extends AppCompatActivity implements ResponseListener,
+public class RegistrationActivity extends AppCompatActivity implements ResponseListener,
         ProgressListener, UploadedListener {
     public static final int PICK_IMAGE = 1;
     private ProgressBar progressBar;
@@ -45,6 +45,8 @@ public class RegisterActivity extends AppCompatActivity implements ResponseListe
     private EditText firstNameField;
     private EditText lastNameField;
     private EditText aboutField;
+    private RegistrationRequest registrator = new RegistrationRequest();
+    private int fileUploadTaskId = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,10 @@ public class RegisterActivity extends AppCompatActivity implements ResponseListe
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (fileUploadTaskId != 0) {
+                    Toast.makeText(RegistrationActivity.this, "Wait please", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, PICK_IMAGE);
@@ -64,7 +70,10 @@ public class RegisterActivity extends AppCompatActivity implements ResponseListe
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RegistrationRequest registrationRequest = new RegistrationRequest();
+                if (!registrator.isFinished()) {
+                    Toast.makeText(RegistrationActivity.this, "Wait, please", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 String login = loginField.getText().toString();
                 String password = passwordField.getText().toString();
                 String passwordRepeated = repeatPasswordField.getText().toString();
@@ -75,15 +84,15 @@ public class RegisterActivity extends AppCompatActivity implements ResponseListe
 
                 if (password.equals(passwordRepeated)) {
                     try {
-                        registrationRequest.register(RegisterActivity.this, login, password, email,
+                        registrator.register(RegistrationActivity.this, login, password, email,
                                 firstName, lastName, fileName, about);
                     } catch (ViolatedConstraintsException e) {
-                        Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                     return;
                 }
 
-                Toast.makeText(RegisterActivity.this, "Passwords don't match", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegistrationActivity.this, "Passwords don't match", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -93,7 +102,8 @@ public class RegisterActivity extends AppCompatActivity implements ResponseListe
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
-            NetworkHelper.getInstance().uploadFile(this, this, getFilePath(uri), "/api/file");
+            fileUploadTaskId = NetworkHelper.getInstance()
+                    .uploadFile(this, this, getFilePath(uri), "/api/file");
             Toast.makeText(this, getFilePath(uri), Toast.LENGTH_SHORT).show();
         }
     }
@@ -119,6 +129,7 @@ public class RegisterActivity extends AppCompatActivity implements ResponseListe
 
     @Override
     public void onResponseFinished(String response, boolean isSuccessful) {
+        registrator.requestFinished();
         if (isSuccessful) {
             try {
                 ErrorEntity errorEntity = new ErrorEntity(response);
@@ -144,8 +155,21 @@ public class RegisterActivity extends AppCompatActivity implements ResponseListe
 
     @Override
     public void fileUploaded(String fileName, boolean isSuccessful) {
+        fileUploadTaskId = 0;
         registerButton.setEnabled(true);
         this.fileName = fileName;
+    }
+
+    @Override
+    public void onStop() {
+        if (registrator.isFinished() && fileUploadTaskId == 0) {
+            super.onStop();
+            return;
+        }
+        registrator.stopProcess();
+        NetworkHelper.getInstance().unsubscribe(fileUploadTaskId);
+        fileUploadTaskId = 0;
+        super.onStop();
     }
 
     private void instantiateViewVars() {

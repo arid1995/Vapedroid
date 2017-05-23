@@ -74,13 +74,14 @@ public class NetworkHelper {
 
     public int send(ResponseListener listener,
                     final String method, final String body, final String url) {
+        taskId++;
         tasks.put(taskId, listener);
 
-        fixedThreadPool.execute(new Runnable() {
+        fixedThreadPool.execute(new MemRunnable(taskId) {
             @Override
             public void run() {
                 Message message = resultHandler.obtainMessage();
-                message.arg1 = taskId;
+                message.arg1 = this.taskId;
                 try {
                     message.obj = sendRequest(method, body, url);
                     message.sendToTarget();
@@ -95,6 +96,7 @@ public class NetworkHelper {
 
     public int uploadFile(UploadedListener uploadedListener, ProgressListener progressListener,
                           final String filePath, final String url) {
+        taskId++;
         uploadTasks.put(taskId, uploadedListener);
         progressTasks.put(taskId, progressListener);
 
@@ -106,11 +108,11 @@ public class NetworkHelper {
                 .post(requestBody)
                 .build();
 
-        fixedThreadPool.execute(new Runnable() {
+        fixedThreadPool.execute(new MemRunnable(taskId) {
             @Override
             public void run() {
                 Message message = uploadedHandler.obtainMessage();
-                message.arg1 = taskId;
+                message.arg1 = this.taskId;
                 try {
                     message.obj = OkHttpConnector.getConnector().newCall(request)
                             .execute().body().string();
@@ -121,6 +123,12 @@ public class NetworkHelper {
             }
         });
         return taskId;
+    }
+
+    public void unsubscribe(int taskId) {
+        tasks.remove(taskId);
+        uploadTasks.remove(taskId);
+        progressTasks.remove(taskId);
     }
 
     private String sendRequest(String method, String body, String url) throws IOException {
@@ -183,5 +191,13 @@ public class NetworkHelper {
             return;
         }
         progressListener.refreshProgress(percents);
+    }
+
+    private abstract class MemRunnable implements Runnable {
+        int taskId;
+
+        MemRunnable(int taskId) {
+            this.taskId = taskId;
+        }
     }
 }

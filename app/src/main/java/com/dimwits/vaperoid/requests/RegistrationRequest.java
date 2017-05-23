@@ -12,8 +12,6 @@ import com.google.gson.Gson;
  */
 
 public class RegistrationRequest extends Request {
-    int taskId = 0;
-
     public void register(ResponseListener listener, String login, String password, String email,
                          String firstName, String lastName, String avatarPath,
                          String about) throws ViolatedConstraintsException {

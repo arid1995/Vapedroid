@@ -12,8 +12,6 @@ import com.google.gson.Gson;
  */
 
 public class AuthenticationRequest extends Request {
-    int taskId = 0;
-
     public void authenticate(ResponseListener listener,
                              String login, String password) throws ViolatedConstraintsException {
         Gson gson = new Gson();
