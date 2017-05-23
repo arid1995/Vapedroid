@@ -48,7 +48,7 @@ public class NetworkHelper {
         resultHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message message) {
-                resultReady(message.arg1, (String) message.obj, true);
+                resultReady(message.arg1, (String) message.obj, message.arg2 == 0);
             }
         };
         progressHandler = new Handler(Looper.getMainLooper()) {
@@ -60,7 +60,7 @@ public class NetworkHelper {
         uploadedHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message message) {
-                fileUploaded(message.arg1, (String) message.obj, true);
+                fileUploaded(message.arg1, (String) message.obj, message.arg2 == 0);
             }
         };
     }
@@ -82,10 +82,12 @@ public class NetworkHelper {
             public void run() {
                 Message message = resultHandler.obtainMessage();
                 message.arg1 = this.taskId;
+                message.arg2 = 0;
                 try {
                     message.obj = sendRequest(method, body, url);
                     message.sendToTarget();
                 } catch (IOException ex) {
+                    message.arg2 = 1;
                     message.sendToTarget();
                 }
             }
@@ -113,12 +115,14 @@ public class NetworkHelper {
             public void run() {
                 Message message = uploadedHandler.obtainMessage();
                 message.arg1 = this.taskId;
+                message.arg2 = 0;
                 try {
                     message.obj = OkHttpConnector.getConnector().newCall(request)
                             .execute().body().string();
                     message.sendToTarget();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    message.arg2 = 1;
+                    message.sendToTarget();
                 }
             }
         });

@@ -104,7 +104,6 @@ public class RegistrationActivity extends AppCompatActivity implements ResponseL
             Uri uri = data.getData();
             fileUploadTaskId = NetworkHelper.getInstance()
                     .uploadFile(this, this, getFilePath(uri), "/api/file");
-            Toast.makeText(this, getFilePath(uri), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -156,8 +155,13 @@ public class RegistrationActivity extends AppCompatActivity implements ResponseL
     @Override
     public void fileUploaded(String fileName, boolean isSuccessful) {
         fileUploadTaskId = 0;
-        registerButton.setEnabled(true);
-        this.fileName = fileName;
+        if (isSuccessful) {
+            registerButton.setEnabled(true);
+            this.fileName = fileName;
+        } else {
+            Toast.makeText(this, "Something is wrong with the connection",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
