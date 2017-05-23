@@ -26,19 +26,16 @@
             android:paddingEnd="@dimen/small_padding">
             <TextView
                 android:id="@+id/profile_username"
-                android:text="Hey"
                 android:textSize="@dimen/h2"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent" />
             <TextView
                 android:id="@+id/profile_name"
-                android:text="Hey"
                 android:textSize="@dimen/h2"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"/>
             <TextView
                 android:id="@+id/profile_about"
-                android:text="Heyfffffff fffff fffffffffffffffffffffffffffffffffffff ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ffffff ffffffffff fffffffffffffff ffffffffffff fffffff"
                 android:textSize="@dimen/h2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
