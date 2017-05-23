@@ -34,8 +34,8 @@ class OkHttpConnector {
                 Socket socket = new Socket();
                 Log.w(TAG, String.format("Changing SO_SNDBUF on new sockets from %d to %d.",
                         socket.getSendBufferSize(), sendBufferSize));
-            } catch (SocketException e) {
-                //
+            } catch (SocketException ignored) {
+
             }
         }
 

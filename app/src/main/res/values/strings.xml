@@ -24,4 +24,8 @@
     <string name="user_picture">User picture</string>
     <string name="find_people">Find people</string>
     <string name="enter_username">Enter username</string>
+    <string name="wait_for_request_to_finish">Wait please, request is being processed…</string>
+    <string name="passwords_do_not_match">Passwords don\'t match</string>
+    <string name="wrong_credentials">Wrong credentials</string>
+    <string name="connection_error">Something is wrong with the connection</string>
 </resources>

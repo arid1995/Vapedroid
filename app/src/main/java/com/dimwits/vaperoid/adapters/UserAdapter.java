@@ -9,10 +9,6 @@ import android.widget.TextView;
 import com.dimwits.vaperoid.R;
 import com.dimwits.vaperoid.requests.entities.UserEntity;
 
-/**
- * Created by farid on 5/23/17.
- */
-
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView userPicture;
@@ -29,6 +25,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
 
         public void bind(UserEntity user) {
+
         }
     }
     @Override

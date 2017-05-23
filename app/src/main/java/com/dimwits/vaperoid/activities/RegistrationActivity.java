@@ -54,7 +54,8 @@ public class RegistrationActivity extends AppCompatActivity implements ResponseL
             @Override
             public void onClick(View v) {
                 if (fileUploadTaskId != 0) {
-                    Toast.makeText(RegistrationActivity.this, "Wait please", Toast.LENGTH_SHORT).show();
+                    String warning = getString(R.string.wait_for_request_to_finish);
+                    Toast.makeText(RegistrationActivity.this, warning, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -87,8 +88,8 @@ public class RegistrationActivity extends AppCompatActivity implements ResponseL
                     }
                     return;
                 }
-
-                Toast.makeText(RegistrationActivity.this, "Passwords don't match", Toast.LENGTH_SHORT).show();
+                String warning = getString(R.string.passwords_do_not_match);
+                Toast.makeText(RegistrationActivity.this, warning, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -134,7 +135,8 @@ public class RegistrationActivity extends AppCompatActivity implements ResponseL
                 }
                 writeSessionInPrefs(response);
             } catch (WrongCredentialsException e) {
-                Toast.makeText(this, "Wrong credentials", Toast.LENGTH_SHORT).show();
+                String warning = getString(R.string.wrong_credentials);
+                Toast.makeText(this, warning, Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -143,9 +145,8 @@ public class RegistrationActivity extends AppCompatActivity implements ResponseL
             startActivity(intent);
             return;
         }
-
-        Toast.makeText(this, "Something is wrong with the connection",
-                Toast.LENGTH_SHORT).show();
+        String warning = getString(R.string.connection_error);
+        Toast.makeText(this, warning, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -155,8 +156,8 @@ public class RegistrationActivity extends AppCompatActivity implements ResponseL
             registerButton.setEnabled(true);
             this.fileName = fileName;
         } else {
-            Toast.makeText(this, "Something is wrong with the connection",
-                    Toast.LENGTH_SHORT).show();
+            String warning = getString(R.string.connection_error);
+            Toast.makeText(this, warning, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -192,7 +193,7 @@ public class RegistrationActivity extends AppCompatActivity implements ResponseL
         SessionEntity session = gson.fromJson(sessionJsonString, SessionEntity.class);
         String sessionId = session.getSessionId();
         if (sessionId == null) {
-            throw new WrongCredentialsException("Wrong credentials");
+            throw new WrongCredentialsException(getString(R.string.wrong_credentials));
         }
         SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.shared_pref_file),

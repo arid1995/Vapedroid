@@ -78,9 +78,8 @@ public class UnauthenticatedFragment extends Fragment implements ResponseListene
             transaction.commitAllowingStateLoss();
             return;
         }
-
-        Toast.makeText(this.getContext(), "Something is wrong with the connection",
-                Toast.LENGTH_SHORT).show();
+        String warning = getString(R.string.connection_error);
+        Toast.makeText(this.getContext(), warning, Toast.LENGTH_SHORT).show();
     }
 
     @Override
