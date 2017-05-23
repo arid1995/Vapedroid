@@ -22,4 +22,6 @@
     <string name="register_upload_button">Upload image</string>
     <string name="profile">Profile</string>
     <string name="user_picture">User picture</string>
+    <string name="find_people">Find people</string>
+    <string name="enter_username">Enter username</string>
 </resources>

@@ -4,8 +4,13 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <!--Text sizes -->
     <dimen name="profile_pic">180dp</dimen>
+    <dimen name="profile_short_info">160dp</dimen>
+    <dimen name="profile_short_pic">140dp</dimen>
     <dimen name="h1">30sp</dimen>
     <dimen name="h2">24sp</dimen>
     <dimen name="h3">18sp</dimen>
+    <dimen name="small_padding">4dp</dimen>
+    <dimen name="middle_padding">8dp</dimen>
+    <dimen name="large_padding">16dp</dimen>
     <dimen name="plain">14sp</dimen>
 </resources>

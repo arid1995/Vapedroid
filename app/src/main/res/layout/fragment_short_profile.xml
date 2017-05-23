@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/profile_short_info"
+    android:padding="@dimen/large_padding">
+    <ImageView
+        android:id="@+id/profile_picture"
+        android:layout_gravity="fill"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/user_picture" />
+    <ScrollView
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:paddingStart="@dimen/small_padding"
+        android:paddingEnd="@dimen/small_padding"
+        android:layout_height="match_parent"
+        android:layout_weight="3">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_short_info"
+            android:paddingStart="@dimen/small_padding"
+            android:paddingEnd="@dimen/small_padding">
+            <TextView
+                android:id="@+id/profile_username"
+                android:text="Hey"
+                android:textSize="@dimen/h2"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent" />
+            <TextView
+                android:id="@+id/profile_name"
+                android:text="Hey"
+                android:textSize="@dimen/h2"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"/>
+            <TextView
+                android:id="@+id/profile_about"
+                android:text="Heyfffffff fffff fffffffffffffffffffffffffffffffffffff ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ffffff ffffffffff fffffffffffffff ffffffffffff fffffff"
+                android:textSize="@dimen/h2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

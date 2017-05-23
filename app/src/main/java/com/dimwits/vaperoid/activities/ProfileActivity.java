@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +21,7 @@ import com.squareup.picasso.Picasso;
  * Created by farid on 5/23/17.
  */
 
-public class ProfileActivity extends Activity implements ResponseListener {
+public class ProfileActivity extends AppCompatActivity implements ResponseListener {
     private ImageView userPictureView;
     private TextView usernameField;
     private TextView emailField;
