@@ -194,7 +194,6 @@ public class NetworkHelper {
 
     private abstract class MemRunnable implements Runnable {
         int taskId;
-
         MemRunnable(int taskId) {
             this.taskId = taskId;
         }

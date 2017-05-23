@@ -46,7 +46,8 @@ public class UnauthenticatedFragment extends Fragment implements ResponseListene
             @Override
             public void onClick(View view) {
                 if (!authenticator.isFinished()) {
-                    Toast.makeText(getContext(), "Be patient please", Toast.LENGTH_SHORT).show();
+                    String warning = getString(R.string.wait_for_request_to_finish);
+                    Toast.makeText(getContext(), warning, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String login = loginField.getText().toString();
@@ -69,7 +70,7 @@ public class UnauthenticatedFragment extends Fragment implements ResponseListene
             try {
                 writeSessionInPrefs(response);
             } catch (WrongCredentialsException e) {
-                Toast.makeText(this.getContext(), "Wrong credentials", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 return;
             }
             authenticator.requestFinished();
@@ -93,7 +94,8 @@ public class UnauthenticatedFragment extends Fragment implements ResponseListene
         SessionEntity session = gson.fromJson(sessionJsonString, SessionEntity.class);
         String sessionId = session.getSessionId();
         if (sessionId == null) {
-            throw new WrongCredentialsException("Wrong credentials");
+            String warning = getString(R.string.wrong_credentials);
+            throw new WrongCredentialsException(warning);
         }
         SharedPreferences sharedPreferences = this.getContext().getSharedPreferences(
                 this.getContext().getString(R.string.shared_pref_file),

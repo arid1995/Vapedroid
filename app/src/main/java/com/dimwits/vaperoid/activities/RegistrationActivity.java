@@ -97,6 +97,7 @@ public class RegistrationActivity extends AppCompatActivity implements ResponseL
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        registerButton.setEnabled(false);
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
             fileUploadTaskId = NetworkHelper.getInstance()
