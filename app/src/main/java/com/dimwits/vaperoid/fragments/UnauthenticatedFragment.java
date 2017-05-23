@@ -66,6 +66,7 @@ public class UnauthenticatedFragment extends Fragment implements ResponseListene
 
     @Override
     public void onResponseFinished(String response, boolean isSuccessful) {
+        authenticator.requestFinished();
         if (isSuccessful) {
             try {
                 writeSessionInPrefs(response);
