@@ -57,7 +57,7 @@ public class ProfileActivity extends AppCompatActivity implements ResponseListen
         firstNameField.setText(user.getFirstName());
         lastNameField.setText(user.getLastName());
         aboutField.setText(user.getAbout());
-        Picasso.with(this).load(NetworkConstants.IP_ADDRESS + "/" + user.getAvatar())
+        Picasso.with(this).load(NetworkConstants.IP_ADDRESS + user.getAvatar())
                 .into(userPictureView);
     }
 }
